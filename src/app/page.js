@@ -2,12 +2,7 @@ import Image from "next/image";
 import Section from "@/components/section";
 import Footer from "@/components/Footer";
 
-export const metadata = {
-  title: "Nexus Dashboard",
-  description: "A dashboard to visualise IBM data",
-  type: "website",
-  viewport: "width=device-width, initial-scale=1.0",
-};
+
 
 export default function Home() {
   return (
@@ -55,7 +50,7 @@ export default function Home() {
       </main >
 
       <section className="flex flex-col justify-end items-end">
-          <div className="lg:h-[60%] h-[70vh] w-full justify-center items-center flex flex-col lg:flex-row">
+          <div className="lg:h-[60vh] h-[70vh] w-full justify-center items-center flex flex-col lg:flex-row">
             <div className="lg:w-[50%] w-full h-full bg-slate-900 flex justify-center items-center">
               <h1 className="text-2xl text-white font-bold">Replace with associated image</h1>
             </div>

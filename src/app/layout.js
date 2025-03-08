@@ -46,10 +46,10 @@ export default function RootLayout({ children }) {
               Dashboard
             </Link>
             <Link
-              href="/graphics"
+              href="/charts"
               className="text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-lg font-medium transition duration-300 ease-in-out"
             >
-              Graphics
+              Charts
             </Link>
             <Link
               href="#"
