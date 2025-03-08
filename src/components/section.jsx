@@ -4,7 +4,7 @@ export default function Section({ isInverted }) {
     return (
         <section
             className={clsx(
-                "h-[80%] overflow-x-hidden w-full flex justify-center items-center my-[10em] flex-col lg:flex-row",
+                "h-[80%] overflow-x-hidden w-full flex justify-center items-center my-[5em] lg:my-[10em] flex-col lg:flex-row",
                 isInverted ? "flex-col-reverse" : "flex-col"
             )}
         >

@@ -38,7 +38,6 @@ export default function RootLayout({ children }) {
             </Link>
           </div>
 
-          {/* Navigation Links - Hidden on Small & Medium Screens */}
           <div className={`${robotoCondensed.variable} hidden md:flex space-x-4 items-center`}>
             <Link
               href="/dashboard"
@@ -60,7 +59,7 @@ export default function RootLayout({ children }) {
             </Link>
           </div>
 
-          <div className="block md:hidden">
+          <div className="block md:hidden mr-[10%]">
             <Hamburguer />
           </div>
         </nav>
