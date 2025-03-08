@@ -1,0 +1,49 @@
+import Cell from "./Cell";
+import fetchCryptoPrices from "./Action";
+
+
+export default async function Dashboard() {
+    const cryptocurrencies = await fetchCryptoPrices();
+
+    return (
+        <>
+                <div className="w-full overflow-x-auto">
+            <table className="w-full p-4 flex flex-col justify-start">
+                <thead className="flex w-full ">
+                    <tr className=" w-full *:w-full flex *:flex *:justify-start *:items-center *:font-semibold *:text-gray-500">
+                        <th className="px-4 py-2">Name</th>
+                        <th className="px-4 py-2">Price</th>
+                        <th className="px-4 py-2">Change</th>
+                        <th className="px-4 py-2">High</th>
+                        <th className="px-4 py-2">Low</th>
+                        <th className="px-4 py-2">Market Cap</th>
+                        <th className="px-4 py-2">Market Rank</th>
+                    </tr>
+                </thead>
+                <tbody className=" flex flex-col w-full m-3">
+                    {!cryptocurrencies || cryptocurrencies.length === 0 ? (
+                        <h1>Error fetching cryptocurrency data</h1>
+                    )
+                    : cryptocurrencies.map((crypto) => (
+                        <Cell
+                            key={crypto.id}
+                            id={crypto.id}
+                            name={crypto.name}
+                            image={crypto.image}
+                            current_price={crypto.current_price}
+                            change={crypto.price_change_24h}
+                            high={crypto.high_24h}
+                            low={crypto.low_24h}
+                            market_cap={crypto.market_cap}
+                            market_cap_rank={crypto.market_cap_rank}
+                        />
+                    ))
+                }
+                </tbody>
+            </table>
+            </div>
+
+            </>
+    );
+}
+export const dynamic = "force-dynamic";
