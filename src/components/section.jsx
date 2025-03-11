@@ -1,6 +1,7 @@
 import clsx from "clsx";
+import Image from "next/image";
 
-export default function Section({ isInverted }) {
+export default function Section({ isInverted, src, alt, h1Text, h3Text, pText }) {
     return (
         <section
             className={clsx(
@@ -21,7 +22,14 @@ export default function Section({ isInverted }) {
                         justify-center 
                         items-center"
                         >
-                            <h1 className="text-2xl text-white font-bold">Replace with associated image</h1>
+                            <Image
+                            src={src}
+                            alt={alt}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            style={{ width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', margin: ' 0 auto' }}
+                            />
                         </div>
 
 
@@ -51,7 +59,7 @@ export default function Section({ isInverted }) {
                         z-10 
                         w-[50%] lg:w-[100%]
                         ">
-                                    Lorem ipsum dolor sit amet.
+                                    {h1Text}
                                 </h1>
 
                                 <h3 className="text-white
@@ -59,7 +67,7 @@ export default function Section({ isInverted }) {
                             w-[55%] lg:w-[100%]
                             z-10
                         ">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    {h3Text}
                                 </h3>
 
                                 <p className="text-white
@@ -67,8 +75,8 @@ export default function Section({ isInverted }) {
                             w-[55%] lg:w-[100%]
                             "
                                 >
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum magni ratione corporis, aspernatur, architecto error deleniti accusantium impedit itaque perspiciatis consectetur possimus necessitatibus ullam debitis neque enim maxime voluptas laborum?
-                                </p>
+                                    {pText}                         
+                                    </p>
                             </div>
                         </div>
                     </>
@@ -101,14 +109,14 @@ export default function Section({ isInverted }) {
                         z-10 
                         w-[50%] lg:w-[100%]
                         ">
-                                    Lorem ipsum dolor sit amet.
+                                    {h1Text}
                                 </h1>
                                 <h3 className="text-white
                             text-xl
                             z-10
                             w-[55%] lg:w-[100%]
                         ">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                    {h3Text}
                                 </h3>
 
                                 <p className="text-white
@@ -116,8 +124,7 @@ export default function Section({ isInverted }) {
                             w-[55%] lg:w-[100%]
                             "
                                 >
-                                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum magni ratione corporis, aspernatur, architecto error deleniti accusantium impedit itaque perspiciatis consectetur possimus necessitatibus ullam debitis neque enim maxime voluptas laborum?
-                                </p>
+                                    {pText}                                </p>
                             </div>
                         </div>
 
@@ -132,7 +139,14 @@ export default function Section({ isInverted }) {
                         justify-center 
                         items-center"
                         >
-                            <h1 className="text-2xl text-white font-bold">Replace with associated image</h1>
+                            <Image
+                            src={src}
+                            alt={alt}
+                            width={0}
+                            height={0}
+                            sizes="100vw"
+                            style={{ width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', margin: ' 0 auto' }}
+                            />
                         </div>
                     </>
                 )

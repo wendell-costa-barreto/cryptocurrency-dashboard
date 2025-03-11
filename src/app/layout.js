@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
+        className={`antialiased overflow-x-hidden`}
       >
         <nav className="bg-gray-900 flex p-2 items-center justify-between border-b border-gray-600">
           <div className="flex items-center w-[85%]">

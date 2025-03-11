@@ -12,7 +12,6 @@ const formatToUSD = (value) => {
 };
 
 const LineGraphic = ({ coins }) => {
-    // Slice the data to show only the first 8 coins
     const slicedCoins = coins.slice(0, 8);
 
     // Convert data for Recharts
