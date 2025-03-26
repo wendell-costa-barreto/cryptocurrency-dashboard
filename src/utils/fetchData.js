@@ -1,4 +1,3 @@
-// utils/fetchData.js
 export const fetchHistoricalData = async (id, days = 365) => {
     try {
       const response = await fetch(
