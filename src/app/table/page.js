@@ -13,7 +13,9 @@ import {
 
 export default async function DataTable() {
     const cryptocurrencies = await fetchCryptoPrices();
-    const dataToPass = cryptocurrencies || [];
+    console.log(cryptocurrencies); // Check what is being returned
+    const dataToPass = Array.isArray(cryptocurrencies) ? cryptocurrencies : [];
+    
     let USDollar = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
