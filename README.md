@@ -1,36 +1,18 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Nexus Dashboard
 
-First, run the development server:
+This project offers users a swift, and easy experience through a dashboard to visualize real time cryptocurrency data, including prices, changes over the last day, month and year, as well as visualizing OHLC values and volume
+This project is completely responsive, made with Next.js to improve site's optimization and speed. Nexus dashboard had the primary objective of focusing on user experience, providing multiple ways to use the site, to maximize the user's comfort while utilizing it and having an easy time while checking cryptocurrency data
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Dashboard
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In the dashboard page you can utilize the select tool to choose a cryptocurrency, or type it's symbol or even pick one of the most popular ones, if you're using a computer. Then the price, changes, high and low and volume values will be shown in cards, and under it a chart displaying the price over the chosen timestamp
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Charts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+In the charts page you can visualize the general cryptocurrency market in charts that compare the values between the most popular cryptocurrencies, as well as visualizing the OHLC values in a candlestick chart at the end of the page
 
-## Learn More
+## Table
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+In the table page, you'll have a summarized version of all important data on each cryptocurrency, which you can check on a table format, easy to read
