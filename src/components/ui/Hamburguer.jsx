@@ -2,6 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Roboto_Condensed } from "next/font/google";
+
+const robotoCondensed = Roboto_Condensed({
+    variable: "--font-roboto-condensed",
+    subsets: ["latin"],
+});
 export default function Hamburguer() {
     const [open, setOpen] = useState(false);
 
@@ -13,7 +19,7 @@ export default function Hamburguer() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="#fff"
-                className="w-6 h-6 z-10 cursor-pointer mr-[-1.5rem] cursor-pointer" 
+                className="w-6 h-6 z-10 mr-[-1.5rem] cursor-pointer" 
                 onClick={() => setOpen(!open)}
             >
                 <path
@@ -31,11 +37,11 @@ export default function Hamburguer() {
                     >
                         ✖
                     </button>
-                    <nav className="flex flex-col gap-6 text-white text-lg">
-                        <Link onClick={()=> setOpen(false)} href="/" className="hover:text-gray-400">Home</Link>
-                        <Link onClick={()=> setOpen(false)} href="/dashboard" className="hover:text-gray-400">Dashboard</Link>
-                        <Link onClick={()=> setOpen(false)} href="/charts" className="hover:text-gray-400">Charts</Link>
-                        <Link onClick={()=> setOpen(false)} href="#footer" className="hover:text-gray-400">Contact</Link>
+                    <nav className={`flex flex-col gap-6 text-white text-lg ${robotoCondensed.className}`}>
+                        <Link onClick={()=> setOpen(false)} href="/" className="text-white text-2xl">Home</Link>
+                        <Link onClick={()=> setOpen(false)} href="/dashboard" className="text-white text-2xl">Dashboard</Link>
+                        <Link onClick={()=> setOpen(false)} href="/charts" className="text-white text-2xl">Charts</Link>
+                        <Link onClick={()=> setOpen(false)} href="/table" className="text-white text-2xl">Table</Link>
                     </nav>
                 </div>
             )}

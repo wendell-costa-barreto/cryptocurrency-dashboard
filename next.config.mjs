@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    reactStrictMode: true,
     images: {
-        domains: ['placehold.co'],
+        domains: ['coin-images.coingecko.com'],
     },
 };
 
 export default nextConfig;
-

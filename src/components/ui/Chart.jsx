@@ -12,10 +12,8 @@ const formatToUSD = (value) => {
 };
 
 const CryptoComparisonChart = ({ coins }) => {
-    // Slice the data to show only the first 8 coins
     const slicedCoins = coins.slice(0, 8);
 
-    // Convert data for Recharts
     const chartData = slicedCoins.map((coin) => ({
         name: coin.name,
         marketCap: coin.market_cap,
@@ -32,8 +30,6 @@ const CryptoComparisonChart = ({ coins }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-
-                    {/* Area for Price Change 24h */}
                     <Area
                         type="monotone"
                         dataKey="priceChange24h"

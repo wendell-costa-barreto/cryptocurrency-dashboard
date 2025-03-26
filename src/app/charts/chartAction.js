@@ -19,7 +19,6 @@ export default async function ChartAction() {
       ];
     });
 
-    // Add headers at the top of the chart data array
     chartData.unshift(['day', 'open', 'high', 'low', 'close']);
 
     console.log(chartData); 

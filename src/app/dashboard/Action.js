@@ -10,8 +10,11 @@ const fetchCryptoPrices = async () => {
         const data = await res.json();
         return data;
     }catch(e){
-        console.log(e);
-        return [];  
+        return (
+            <div className="flex flex-col items-center justify-center h-screen">
+                <p className="text-red-500 text-3xl font-bold">Something went wrong, try again later</p>
+            </div>
+        )
     }
 };
 

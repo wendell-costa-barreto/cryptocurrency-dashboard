@@ -1,12 +1,19 @@
 import clsx from "clsx";
 import Image from "next/image";
+import { Roboto_Condensed } from "next/font/google";
+
+const robotoCondensed = Roboto_Condensed({
+    variable: "--font-roboto-condensed",
+    subsets: ["latin"],
+});
 
 export default function Section({ isInverted, src, alt, h1Text, h3Text, pText }) {
     return (
         <section
             className={clsx(
-                "h-[80%] overflow-x-hidden w-full flex justify-center items-center my-[5em] lg:my-[10em] flex-col lg:flex-row",
-                isInverted ? "flex-col-reverse" : "flex-col"
+                "h-[80%] overflow-x-hidden w-full flex justify-center items-center mt-[80%] lg:my-[10em] flex-col lg:flex-row",
+                robotoCondensed.className,
+                isInverted ? "flex-col-reverse" : "flex-col" 
             )}
         >
             {
@@ -55,7 +62,7 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         ">
                                 <h1 className="text-white 
                         text-center lg:text-left
-                        text-2xl lg:text-4xl
+                        text-4xl 
                         z-10 
                         w-[50%] lg:w-[100%]
                         ">
@@ -64,7 +71,7 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
 
                                 <h3 className="text-white
                             text-xl
-                            w-[55%] lg:w-[100%]
+                            w-[80%] lg:w-[100%]
                             z-10
                         ">
                                     {h3Text}
@@ -72,7 +79,7 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
 
                                 <p className="text-white
                             z-10 
-                            w-[55%] lg:w-[100%]
+                            w-[80%] lg:w-[100%]
                             "
                                 >
                                     {pText}                         
@@ -90,7 +97,8 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         justify-center lg:justify-start
                         items-center
                         flex-col lg:flex-row
-                        gap-6"
+                        gap-6
+                        m]"
                         >
                             <div className="
                         flex

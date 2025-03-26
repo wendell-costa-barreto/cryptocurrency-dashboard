@@ -1,5 +1,4 @@
 "use client";
-
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 const formatToUSD = (value) => {
@@ -12,9 +11,16 @@ const formatToUSD = (value) => {
 };
 
 const LineGraphic = ({ coins }) => {
+    if(coins.length === 0){
+        return (
+            <>
+                <div>
+                    <p className="text-red-500 text-3xl font-bold">Something went wrong, try again later</p>
+                </div>
+            </>
+        )}
+        
     const slicedCoins = coins.slice(0, 8);
-
-    // Convert data for Recharts
     const chartData = slicedCoins.map((coin) => ({
         name: coin.name,
         marketCap: coin.market_cap,
@@ -31,8 +37,6 @@ const LineGraphic = ({ coins }) => {
                     <YAxis />
                     <Tooltip />
                     <Legend />
-
-                    {/* Line for Price Change 24h */}
                     <Line
                         type="monotone"
                         dataKey="currentPrice"
