@@ -4,6 +4,13 @@ import DataCard from "@/components/Card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CryptoChart from "./CryptoChart";
+import { Metadata } from "next";
+
+export const Metadata = {
+    title: "Nexus | Table",
+    description: "Dashboard to visualise data on each cryptocurrency as it's selected on change, volume, prices, high and low, as well as seeing those values on the selected timeframes",
+    keywords: "Nexus, cryptocurrency, market, data, visualisation",
+};
 
 export default function Dashboard() {
     const [cryptoPrices, setCryptoPrices] = useState([]);

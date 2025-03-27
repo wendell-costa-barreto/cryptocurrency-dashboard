@@ -9,7 +9,14 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table"
-  
+import { Metadata } from "next";
+
+export const Metadata = {
+    title: "Nexus | Table",
+    description: "Utilise this table to visualise a summarised version of the cryptocurrency market",
+    keywords: "Nexus, price, low, high, volume, change, market cap, cryptocurrencies",
+};
+
 
 export default async function DataTable() {
     const cryptocurrencies = await fetchCryptoPrices();

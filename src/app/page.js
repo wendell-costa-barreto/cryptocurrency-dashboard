@@ -3,11 +3,19 @@ import Section from "@/components/section";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Roboto_Condensed } from "next/font/google";
+import { Metadata } from next
 
 const robotoCondensed = Roboto_Condensed({
   variable: "--font-roboto-condensed",
   subsets: ["latin"],
 });
+
+export const Metadata = {
+  title: "Nexus - Stay updated on cryptocurrencies market",
+  description: "Utilise our dashboard to visualise cryptocurrency data",
+  keywords: "Nexus, cryptocurrency, market, data, visualisation",
+};
+
 export default function Home() {
   return (
     <>
@@ -19,6 +27,7 @@ export default function Home() {
               alt="Home image showcasing a dashboard with information on cryptocurrencies"
               width={0}
               height={0}
+              title
               sizes="100vw"
               style={{ width: '100%', height: '100%', zIndex: -1, objectFit: 'cover' }}
             />
@@ -26,7 +35,7 @@ export default function Home() {
             <div className="w-full h-full bg-black bg-opacity-60 z-1 absolute left-0 top-0">
               <div className="flex flex-col items-center justify-center h-full w-full *:z-10 gap-6">
                 <h1 className="text-white p-2 lg:p-0 text-center font-bold text-4xl">Stay updated on cryptocurrencies market</h1>
-                  <p className="text-white text-lg p-2 lg:p-0">Utilise our dashboard to visualise the IBM data</p>
+                  <p className="text-white text-lg p-2 lg:p-0">Utilise our dashboard to visualise the cryptocurrencies data</p>
                   <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 w-[70%] lg:w-[40%] mt-4 rounded-sm transition ease-in-out duration-300">
               <Link href="/dashboard">Check out real time data</Link>
             </button>

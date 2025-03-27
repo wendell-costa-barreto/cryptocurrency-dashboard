@@ -3,7 +3,13 @@ import LineGraphic from "@/components/ui/LineGraphic";
 import CryptoComparisonChart from "@/components/ui/Chart";
 import CandlestickChart from "@/components/ui/CandleChart";
 import ChartAction from "@/app/charts/chartAction";
+import { Metadata } from "next";
 
+export const Metadata = {
+    title: "Nexus | Table",
+    description: "Charts to visualise the general cryptocurrency market summarised",
+    keywords: "Nexus, cryptocurrency, cryptocurrencies, data, OHLC, charts, USD, popular",
+};
 
 export default async function Graphics() {
 
