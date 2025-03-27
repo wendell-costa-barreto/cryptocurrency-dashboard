@@ -3,7 +3,7 @@ import Section from "@/components/section";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Roboto_Condensed } from "next/font/google";
-import { Metadata } from next
+import Head from "next/head";
 
 const robotoCondensed = Roboto_Condensed({
   variable: "--font-roboto-condensed",
@@ -19,7 +19,9 @@ export const Metadata = {
 export default function Home() {
   return (
     <>
-
+      <Head>
+        <title>Nexus - Stay updated on cryptocurrencies market</title>
+      </Head>
       <main className={`flex flex-col items-center ${robotoCondensed.className}`}>
         <div className="h-screen lg:h-[65vh] w-full flex justify-center items-center mb-10 object-cover overflow-hidden relative">
         <Image
@@ -27,7 +29,7 @@ export default function Home() {
               alt="Home image showcasing a dashboard with information on cryptocurrencies"
               width={0}
               height={0}
-              title
+              title="Home image showcasing a dashboard with information on cryptocurrencies"
               sizes="100vw"
               style={{ width: '100%', height: '100%', zIndex: -1, objectFit: 'cover' }}
             />
@@ -45,16 +47,16 @@ export default function Home() {
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-4 sm:mb-[15%] lg:mb-0">
           <div className="bg-white p-4 flex flex-col justify-between lg:justify-normal items-start gap-2 lg:gap-6 lg:h-full mb-24">
             <h3 className="text-2xl font-semibold text-gray-900">Market Insights </h3>
-            <p className="text-gray-600">Stay up to date with the latest cryptocurrency prices and market trends. Our dashboard provides real-time updates on thousands of digital assets, giving you accurate and timely data to make informed investment decisions. Track price fluctuations, market capitalizations, and trading volumes in an easy-to-read interface.
+            <p className="text-gray-800">Stay up to date with the latest cryptocurrency prices and market trends. Our dashboard provides real-time updates on thousands of digital assets, giving you accurate and timely data to make informed investment decisions. Track price fluctuations, market capitalizations, and trading volumes in an easy-to-read interface.
             </p>
           </div>
           <div className="bg-white p-4 flex flex-col justify-between lg:justify-normal items-start gap-2 lg:gap-6 lg:h-full mb-24">
             <h3 className="text-2xl font-semibold text-gray-900">Ease of use and UX oriented Design</h3>
-            <p className="text-gray-600">Visualize the data in a user-friendly way, making it easy to understand and navigate. Our dashboard provides a clean and visually appealing interface, with a focus on simplicity and ease of use.</p>
+            <p className="text-gray-800">Visualize the data in a user-friendly way, making it easy to understand and navigate. Our dashboard provides a clean and visually appealing interface, with a focus on simplicity and ease of use.</p>
           </div>
           <div className="bg-white p-4 flex flex-col justify-between lg:justify-normal items-start gap-2 lg:gap-6 lg:h-full mb-24">
             <h3 className="text-2xl font-semibold text-gray-900">Advanced Analytics & Data Visualization</h3>
-            <p className="text-gray-600">Gain deeper insights into the crypto market with powerful analytics and interactive charts. Our dashboard features historical data trends, real-time price charts, and predictive indicators that help you analyze market movements. Customize your data visualization to suit your trading or research needs, and stay ahead of the curve in the fast-paced world of digital assets.
+            <p className="text-gray-800">Gain deeper insights into the crypto market with powerful analytics and interactive charts. Our dashboard features historical data trends, real-time price charts, and predictive indicators that help you analyze market movements. Customize your data visualization to suit your trading or research needs, and stay ahead of the curve in the fast-paced world of digital assets.
             </p>
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-full mt-6">
               <Link href="/dashboard">Check out</Link>

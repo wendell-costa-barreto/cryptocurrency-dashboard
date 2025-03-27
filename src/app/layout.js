@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
               href="/"
               className={`text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-2xl font-bold ${orbitron.className} transition duration-300 ease-in-out`}
 
-              aria-current="page"
+              current="page"
             >
               Nexus
             </Link>

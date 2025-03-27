@@ -3,10 +3,10 @@ import LineGraphic from "@/components/ui/LineGraphic";
 import CryptoComparisonChart from "@/components/ui/Chart";
 import CandlestickChart from "@/components/ui/CandleChart";
 import ChartAction from "@/app/charts/chartAction";
-import { Metadata } from "next";
+import Head from "next/head";
 
 export const Metadata = {
-    title: "Nexus | Table",
+    title: "Nexus | Charts",
     description: "Charts to visualise the general cryptocurrency market summarised",
     keywords: "Nexus, cryptocurrency, cryptocurrencies, data, OHLC, charts, USD, popular",
 };
@@ -26,13 +26,17 @@ export default async function Graphics() {
 
     return (
         <>
+
+        <Head>
+            <title>Nexus | Charts</title>
+        </Head>
         <div className="dashboard">
             <div className="w-full flex justify-center items-start *:px-8 flex-col">
                 <h1 className="text-4xl text-center pt-6 text-black font-bold">Nexus Dashboard</h1>
                 <p className="text-md text-justify w-full text-black italic mt-5">Use this tool to visualise in charts the cryptocurrencies values, changes as well as the OHLC data generally</p>
             </div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-6">
+        <main className="flex flex-col items-center justify-center gap-6">
             <div className="w-full flex-col flex">
             <LineGraphic coins={cryptocurrencies} />
             <p className="py-[3.5%] px-2 italic text-sm mt-[1.7rem] lg:mt-0">{`The above chart shows the market prices of cryptocurrencies currently, it's displayed the most popular cryptocurrencies in the USD currency conversion`}</p>
@@ -45,7 +49,7 @@ export default async function Graphics() {
             <CandlestickChart data={OHLCData} />
             <p className="py-[3.5%] px-2 italic text-sm mt-[1.7rem] lg:mt-0">{`The above chart shows the changes of Open, High, Low, and Close prices over the past days, hover the mouse or click on top of the chart to see the details`}</p>
             </div>
-        </div>
+        </main>
         </>
     );
 }

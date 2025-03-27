@@ -4,10 +4,11 @@ import DataCard from "@/components/Card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CryptoChart from "./CryptoChart";
-import { Metadata } from "next";
+import Head from "next/head";
+
 
 export const Metadata = {
-    title: "Nexus | Table",
+    title: "Nexus | Dashboard",
     description: "Dashboard to visualise data on each cryptocurrency as it's selected on change, volume, prices, high and low, as well as seeing those values on the selected timeframes",
     keywords: "Nexus, cryptocurrency, market, data, visualisation",
 };
@@ -163,11 +164,15 @@ export default function Dashboard() {
         },
     ];
 
-    const OPTIONS = { align: 'start' };
 
     return (    
         <>
-            <div className="bg-slate-800 w-full h-[20vh] mx-auto flex flex-row gap-8" >
+
+    <Head>
+        <title>Nexus | Dashboard</title>
+    </Head>
+
+            <div className="bg-slate-900 w-full h-[20vh] mx-auto flex flex-row gap-8" >
                 <div className="w-[65%] xl:flex flex-col items-center justify-center gap-8 hidden">
                     <div className="flex gap-4">
                         <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect} >BTC</button>
@@ -213,31 +218,30 @@ export default function Dashboard() {
 
 
             {selectedCrypto && (
-                <>
+                <main>
                     <div className="flex gap-[2%] *:mx-6 justify-center items-center w-full my-[4%] xl:flex-row flex-col-reverse ">
 
                     <div className="flex flex-col">
                         <div className="flex justify-center items-center gap-3">
-                        <Image
-                        src={selectedCrypto.image}
-                        alt={selectedCrypto.name}
-                        width={60}
-                        height={60}
-                    />
-                    <h1 className="text-xl lg:text-3xl font-bold">{selectedCrypto.name}</h1>
+                            <Image
+                            src={selectedCrypto.image}
+                            alt={selectedCrypto.name}
+                            width={60}
+                            height={60}
+                            />
+                            <h1 className="text-xl lg:text-3xl font-bold">{selectedCrypto.name}</h1>
                         </div>
-                    <h2 className="text-md lg:text-2xl italic uppercase text-center mt-2">{selectedCrypto.symbol}</h2>
+                        <h2 className="text-md lg:text-2xl italic uppercase text-center mt-2">{selectedCrypto.symbol}</h2>
                     </div>
-                    <div className="flex w-full flex-wrap xl:flex-nowrap 2xl:gap-[5%] gap-8 justify-center items-center mb-[15%] xl:mb-0">
-                    <DataCard type="Price" cryptoData={selectedCrypto?.current_price || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo `} percentage={selectedCrypto.price_change_percentage_24h}/>
-                        <DataCard type="Market Cap" cryptoData={selectedCrypto?.market_cap || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="High 24h" cryptoData={selectedCrypto?.high_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="Low 24h" cryptoData={selectedCrypto?.low_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="Volume" cryptoData={selectedCrypto?.total_volume || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-</div>
-                        
+                        <div className="flex w-full flex-wrap xl:flex-nowrap 2xl:gap-[5%] gap-8 justify-center items-center mb-[15%] xl:mb-0">
+                            <DataCard type="Price" cryptoData={selectedCrypto?.current_price || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo `} percentage={selectedCrypto.price_change_percentage_24h}/>
+                            <DataCard type="Market Cap" cryptoData={selectedCrypto?.market_cap || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
+                            <DataCard type="High 24h" cryptoData={selectedCrypto?.high_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
+                            <DataCard type="Low 24h" cryptoData={selectedCrypto?.low_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
+                            <DataCard type="Volume" cryptoData={selectedCrypto?.total_volume || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
+                        </div>    
                     </div>
-                </>
+                </main>
                         )}
             <CryptoChart id={selectedCrypto?.id}/>
         </>
