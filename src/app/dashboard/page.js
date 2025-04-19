@@ -4,14 +4,6 @@ import DataCard from "@/components/Card";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CryptoChart from "./CryptoChart";
-import Head from "next/head";
-
-
-export const Metadata = {
-    title: "Nexus | Dashboard",
-    description: "Dashboard to visualise data on each cryptocurrency as it's selected on change, volume, prices, high and low, as well as seeing those values on the selected timeframes",
-    keywords: "Nexus, cryptocurrency, market, data, visualisation",
-};
 
 export default function Dashboard() {
     const [cryptoPrices, setCryptoPrices] = useState([]);
@@ -22,6 +14,7 @@ export default function Dashboard() {
     const [lastValidCrypto, setLastValidCrypto] = useState(null);
 
     useEffect(() => {
+        document.title = "Nexus Dashboard";
         fetchCryptoPrices()
             .then(data => {
                 setCryptoPrices(data);
@@ -37,6 +30,7 @@ export default function Dashboard() {
                 setIsLoaded(true);
             });
     }, []);
+
 
     function handleTarget(e) {
         const userInput = e.target.value.toLowerCase();
@@ -167,10 +161,6 @@ export default function Dashboard() {
 
     return (    
         <>
-
-    <Head>
-        <title>Nexus | Dashboard</title>
-    </Head>
 
             <div className="bg-slate-900 w-full h-[20vh] mx-auto flex flex-row gap-8" >
                 <div className="w-[65%] xl:flex flex-col items-center justify-center gap-8 hidden">

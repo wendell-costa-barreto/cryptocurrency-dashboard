@@ -5,7 +5,7 @@ import CandlestickChart from "@/components/ui/CandleChart";
 import ChartAction from "@/app/charts/chartAction";
 import Head from "next/head";
 
-export const Metadata = {
+export const metadata = {
     title: "Nexus | Charts",
     description: "Charts to visualise the general cryptocurrency market summarised",
     keywords: "Nexus, cryptocurrency, cryptocurrencies, data, OHLC, charts, USD, popular",

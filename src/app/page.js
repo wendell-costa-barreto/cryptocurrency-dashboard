@@ -4,16 +4,14 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { Roboto_Condensed } from "next/font/google";
 import Head from "next/head";
-
 const robotoCondensed = Roboto_Condensed({
   variable: "--font-roboto-condensed",
   subsets: ["latin"],
 });
 
-export const Metadata = {
+export const metadata = {
   title: "Nexus - Stay updated on cryptocurrencies market",
   description: "Utilise our dashboard to visualise cryptocurrency data",
-  keywords: "Nexus, cryptocurrency, market, data, visualisation",
 };
 
 export default function Home() {

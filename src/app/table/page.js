@@ -12,7 +12,7 @@ import {
 import Head from "next/head";
 
 
-export const Metadata = {
+export const metadata = {
     title: "Nexus | Table",
     description: "Utilise this table to visualise a summarised version of the cryptocurrency market",
     keywords: "Nexus, price, low, high, volume, change, market cap, cryptocurrencies",
@@ -21,7 +21,7 @@ export const Metadata = {
 
 export default async function DataTable() {
     const cryptocurrencies = await fetchCryptoPrices();
-    console.log(cryptocurrencies); // Check what is being returned
+    console.log(cryptocurrencies);
     const dataToPass = Array.isArray(cryptocurrencies) ? cryptocurrencies : [];
     
     let USDollar = new Intl.NumberFormat('en-US', {
