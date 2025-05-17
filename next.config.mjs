@@ -1,9 +1,30 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: true,
-    images: {
-        domains: ['coin-images.coingecko.com'],
-    },
-};
+  async headers() {
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview') {
+      return [
+        {
+          source: '/:path*',
+          headers: [
+            { key: 'X-Robots-Tag', value: 'noindex' },
+          ],
+        },
+      ]
+    }
 
-export default nextConfig;
+    if (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production') {
+      return [
+        {
+          source: '/:path*',
+          headers: [
+            { key: 'X-Robots-Tag', value: 'index, follow' },
+          ],
+        },
+      ]
+    }
+
+    return []
+  },
+}
+
+export default nextConfig
