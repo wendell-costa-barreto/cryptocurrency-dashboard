@@ -46,10 +46,6 @@ export const metadata = {
     description: "An interactive dashboard for cryptocurrencies visualisation",
     url: "https://cryptocurrency-dashboard-flame.vercel.app",
   },
-   robots: {
-    index: false,
-    follow: true,
-  },
 };
 export default function RootLayout({ children }) {
   return (
