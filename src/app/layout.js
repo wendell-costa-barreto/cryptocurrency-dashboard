@@ -34,6 +34,16 @@ const orbitron = Orbitron({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: "Nexus Dashboard",
+  description: "An interactive dashboard for cryptocurrencies visualisation",
+  openGraph: {
+    type: "website",
+    title: "Nexus Dashboard",
+    description: "An interactive dashboard for cryptocurrencies visualisation",
+    url: "https://cryptocurrency-dashboard-flame.vercel.app",
+  }
+};
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
