@@ -2,6 +2,9 @@ import { Geist, Geist_Mono, Roboto_Condensed, Lexend, Exo_2, Orbitron } from "ne
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import Hamburguer from "@/components/ui/Hamburguer";
 
 const geistSans = Geist({
@@ -42,7 +45,11 @@ export const metadata = {
     title: "Nexus Dashboard",
     description: "An interactive dashboard for cryptocurrencies visualisation",
     url: "https://cryptocurrency-dashboard-flame.vercel.app",
-  }
+  },
+   robots: {
+    index: false,
+    follow: true,
+  },
 };
 export default function RootLayout({ children }) {
   return (
@@ -61,7 +68,8 @@ export default function RootLayout({ children }) {
               Nexus
             </Link>
           </div>
-
+<Analytics/>
+<SpeedInsights/>
           <div className={`hidden md:flex space-x-4 items-center`}>
             <Link
               href="/dashboard"
