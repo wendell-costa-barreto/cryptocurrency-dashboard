@@ -1,8 +1,12 @@
+'use client';
+
 import { Geist, Geist_Mono, Roboto_Condensed, Lexend, Exo_2, Orbitron } from "next/font/google";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import "./globals.css";
 import Hamburguer from "@/components/ui/Hamburguer";
+import { useAuth, useSignUpState } from "@/utils/auth";
+import ModernNavbar from "./Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,51 +39,16 @@ const orbitron = Orbitron({
 });
 
 export default function RootLayout({ children }) {
-  return (
+  const {user } = useAuth();
+  const { isSignUp, setIsSignUp } = useSignUpState();
+    return (
     <html lang="en">
       <body
         className={`${exo2.variable} ${robotoCondensed.variable} ${lexend.variable} ${orbitron.variable} antialiased overflow-x-hidden`}
       >
-        <nav className="bg-gray-900 flex p-2 items-center justify-between border-b border-gray-600">
-          <div className="flex items-center w-[85%]">
-            <Link
-              href="/"
-              className={`text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-2xl font-bold ${orbitron.className} transition duration-300 ease-in-out`}
-
-              aria-current="page"
-            >
-              Nexus
-            </Link>
-          </div>
-
-          <div className={`hidden md:flex space-x-4 items-center`}>
-            <Link
-              href="/dashboard"
-              className={`font-exo2 text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-lg font-medium transition duration-300 ease-in-out`}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="/charts"
-              className="font-exo2 text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-lg font-medium transition duration-300 ease-in-out"
-            >
-              Charts
-            </Link>
-            <Link
-              href="/table"
-              className="font-exo2 text-gray-100 hover:bg-gray-700 hover:text-white px-3 py-2 text-lg font-medium transition duration-300 ease-in-out"
-            >
-              Table
-            </Link>
-          </div>
-
-          <div className="block md:hidden mr-[10%]">
-            <Hamburguer />
-          </div>
-        </nav>
+       <ModernNavbar user={user}/>
 
         {children}
-        <Footer />
       </body>
     </html>
   );

@@ -1,238 +1,347 @@
 'use client'
-import fetchCryptoPrices from "./Action";
-import DataCard from "@/components/Card";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import CryptoChart from "./CryptoChart";
 
-export default function Dashboard() {
-    const [cryptoPrices, setCryptoPrices] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [inputValue, setInputValue] = useState("btc");
-    const [selectedCrypto, setSelectedCrypto] = useState(null);
-    const [lastValidCrypto, setLastValidCrypto] = useState(null);
+import React, { useEffect, useState } from 'react';
+import { TrendingUp, TrendingDown, Search, BarChart3, Coins, DollarSign, Volume, Activity } from 'lucide-react';
+import Image from 'next/image';
 
-    useEffect(() => {
-        fetchCryptoPrices()
-            .then(data => {
-                setCryptoPrices(data);
-                setIsLoaded(true);
-                const defaultCrypto = data.find(crypto => crypto.symbol.toLowerCase() === "btc");
-                if (defaultCrypto) {
-                    setSelectedCrypto(defaultCrypto);
-                    setLastValidCrypto(defaultCrypto);
-                }
-            })
-            .catch(error => {
-                setError(error);
-                setIsLoaded(true);
-            });
-    }, []);
+// Your fetchCryptoPrices function
+const fetchCryptoPrices = async () => {
+    try{
+        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd',
+            {
+                revalidate: 25,
+                cache: 'no-cache',
+                method: 'GET'
+            }
+        );
+        const data = await res.json();
+        return data;
+    }catch(e){
+        throw new Error('Failed to fetch crypto prices');
+    }
+};
 
-    function handleTarget(e) {
-        const userInput = e.target.value.toLowerCase();
+const DataCard = ({ type, cryptoData, image, imageAlt, percentage }) => {
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      notation: value > 1000000000 ? 'compact' : 'standard',
+      maximumFractionDigits: 2
+    }).format(value);
+  };
 
-        const foundCrypto = cryptoPrices.find(crypto => crypto.symbol.toLowerCase() === userInput);
+  const getIcon = (type) => {
+    switch(type) {
+      case 'Price': return <DollarSign className="w-5 h-5" />;
+      case 'Market Cap': return <BarChart3 className="w-5 h-5" />;
+      case 'Volume': return <Volume className="w-5 h-5" />;
+      case 'High 24h': case 'Low 24h': return <Activity className="w-5 h-5" />;
+      default: return <Coins className="w-5 h-5" />;
+    }
+  };
 
-        setInputValue(userInput);
+  return (
+    <>
+    <div className="bg-gradient-to-br from-gray-800/50 via-black/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-purple-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+            {getIcon(type)}
+          </div>
+          <span className="text-slate-300 font-medium">{type}</span>
+        </div>
+        {image && (
+          <Image width={40} height={40} src={image} alt={imageAlt} className="w-8 h-8 rounded-full" />
+        )}
+      </div>
+      
+      <div className="space-y-2">
+        <div className="text-2xl font-bold text-white">
+          {formatCurrency(cryptoData)}
+        </div>
+        {percentage !== undefined && (
+          <div className={`flex items-center gap-1 text-sm ${
+            percentage >= 0 ? 'text-green-400' : 'text-red-400'
+          }`}>
+            {percentage >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+            {Math.abs(percentage).toFixed(2)}%
+          </div>
+        )}
+      </div>
+    </div>
+    </>
 
-        if (foundCrypto) {
-            setSelectedCrypto(foundCrypto);
-            setLastValidCrypto(foundCrypto); 
-        } else {
-            setSelectedCrypto(lastValidCrypto);
+  );
+};
+
+const CryptoTable = ({ cryptos }) => {
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      notation: value > 1000000000 ? 'compact' : 'standard',
+      maximumFractionDigits: 2
+    }).format(value);
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-gray-800/30 via-black/30 to-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-2xl overflow-hidden">
+      <div className="p-6 border-b border-gray-700/30">
+        <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+          <BarChart3 className="w-6 h-6 text-purple-400" />
+          Market Overview
+        </h2>
+        <p className="text-slate-400 mt-2">Real-time cryptocurrency market data</p>
+      </div>
+      
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-700/30">
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">Rank</th>
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">Name</th>
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">Price</th>
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">24h Change</th>
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">Market Cap</th>
+              <th className="text-left py-4 px-6 text-slate-300 font-medium">Volume</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cryptos.map((crypto) => (
+              <tr key={crypto.id} className="border-b border-gray-700/20 hover:bg-gray-800/20 transition-colors">
+                <td className="py-4 px-6">
+                  <span className="bg-purple-500/10 text-purple-400 px-2 py-1 rounded-lg text-sm font-medium">
+                    #{crypto.market_cap_rank}
+                  </span>
+                </td>
+                <td className="py-4 px-6">
+                  <div className="flex items-center gap-3">
+                    <Image width={40} height={40} src={crypto.image} alt={crypto.name} className="w-8 h-8 rounded-full" />
+                    <div>
+                      <div className="text-white font-medium">{crypto.name}</div>
+                      <div className="text-slate-400 text-sm uppercase">{crypto.symbol}</div>
+                    </div>
+                  </div>
+                </td>
+                <td className="py-4 px-6 text-white font-medium">
+                  {formatCurrency(crypto.current_price)}
+                </td>
+                <td className="py-4 px-6">
+                  <div className={`flex items-center gap-1 ${
+                    crypto.price_change_percentage_24h >= 0 ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {crypto.price_change_percentage_24h >= 0 ? 
+                      <TrendingUp className="w-4 h-4" /> : 
+                      <TrendingDown className="w-4 h-4" />
+                    }
+                    {Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
+                  </div>
+                </td>
+                <td className="py-4 px-6 text-slate-300">
+                  {formatCurrency(crypto.market_cap)}
+                </td>
+                <td className="py-4 px-6 text-slate-300">
+                  {formatCurrency(crypto.total_volume)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+const Dashboard = () => {
+  const [cryptoPrices, setCryptoPrices] = useState([]);
+  const [selectedCrypto, setSelectedCrypto] = useState(null);
+  const [inputValue, setInputValue] = useState('btc');
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchCryptoPrices()
+      .then(data => {
+        setCryptoPrices(data);
+        setIsLoaded(true);
+        const defaultCrypto = data.find(crypto => crypto.symbol.toLowerCase() === 'btc');
+        if (defaultCrypto) {
+          setSelectedCrypto(defaultCrypto);
         }
+      })
+      .catch(error => {
+        setError(error);
+        setIsLoaded(true);
+      });
+  }, []);
+
+  const handleQuickSelect = (symbol) => {
+    const foundCrypto = cryptoPrices.find(crypto => crypto.symbol.toLowerCase() === symbol.toLowerCase());
+    if (foundCrypto) {
+      setSelectedCrypto(foundCrypto);
+      setInputValue(symbol.toLowerCase());
     }
+  };
 
-    if (error) return <div className="flex justify-center items-center h-screen"><h1 className="text-red-500 text-2xl">Something went wrong, try again later</h1></div>;
-    if (!isLoaded) return         <div className='flex justify-center items-start w-full h-[80%]'>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" width="161" height="161" className='mt-[10rem]'>
-        <g>
-        <g transform="rotate(0 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.925925925925926s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(30 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.8417508417508418s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(60 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.7575757575757577s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(90 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.6734006734006734s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(120 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.5892255892255893s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(150 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.5050505050505051s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(180 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.4208754208754209s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(210 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.3367003367003367s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(240 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.25252525252525254s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(270 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.16835016835016836s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(300 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="-0.08417508417508418s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        <g transform="rotate(330 50 50)">
-        <rect fill="#2a2728" height="15" width="7" ry="0" rx="0" y="22.5" x="46.5">
-            <animate repeatCount="indefinite" begin="0s" dur="1.0101010101010102s" keyTimes="0;1" values="1;0" attributeName="opacity"/>
-        </rect>
-        </g>
-        </g>
-        </svg>
-    </div>;
-
-
-
-    function handleQuickSelect(e){
-        const userInput = e.target.innerText.toLowerCase();
-        const foundCrypto = cryptoPrices.find(crypto => crypto.symbol.toLowerCase() === userInput);
-        setSelectedCrypto(foundCrypto);
+  const handleInputChange = (e) => {
+    const userInput = e.target.value.toLowerCase();
+    setInputValue(userInput);
+    
+    const foundCrypto = cryptoPrices.find(crypto => crypto.symbol.toLowerCase() === userInput);
+    if (foundCrypto) {
+      setSelectedCrypto(foundCrypto);
     }
+  };
 
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-8 max-w-md">
+            <div className="text-red-400 text-6xl mb-4">⚠️</div>
+            <h1 className="text-red-400 text-2xl font-bold mb-2">Something went wrong</h1>
+            <p className="text-slate-400">Please try again later</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="mt-4 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 px-6 py-2 rounded-lg transition-all"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-    const slides = [
-        {
-            type: 'Price',
-            cryptoData: selectedCrypto?.current_price || 0,
-            image: selectedCrypto.image,
-            imageAlt: `${selectedCrypto.name} logo`,
-            percentage: selectedCrypto.price_change_percentage_24h,
-        },
-        {
-            type: 'Market Cap',
-            cryptoData: selectedCrypto?.market_cap || 0,
-            image: selectedCrypto.image,
-            imageAlt: `${selectedCrypto.name} logo`,
-        },
-        {
-            type: 'High 24h',
-            cryptoData: selectedCrypto?.high_24h || 0,
-            image: selectedCrypto.image,
-            imageAlt: `${selectedCrypto.name} logo`,
-        },
-        {
-            type: 'Low 24h',
-            cryptoData: selectedCrypto?.low_24h || 0,
-            image: selectedCrypto.image,
-            imageAlt: `${selectedCrypto.name} logo`,
-        },
-        {
-            type: 'Volume',
-            cryptoData: selectedCrypto?.total_volume || 0,
-            image: selectedCrypto.image,
-            imageAlt: `${selectedCrypto.name} logo`,
-        },
-    ];
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-purple-400/30 border-t-purple-400 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-400">Loading market data...</p>
+        </div>
+      </div>
+    );
+  }
 
-    const OPTIONS = { align: 'start' };
+  const quickSelectCoins = ['BTC', 'ETH', 'USDT', 'XRP', 'BNB'];
 
-    return (    
-        <>
-            <div className="bg-slate-800 w-full h-[20vh] mx-auto flex flex-row gap-8" >
-                <div className="w-[65%] xl:flex flex-col items-center justify-center gap-8 hidden">
-                    <div className="flex gap-4">
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect} >BTC</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>ETH</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>USDT</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>XRP</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>BNB</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>SOL</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>USDC</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>DOGE</button>
-                    </div>
-
-                    <div className="flex gap-4">
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>ADA</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>TRX</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>WBTC</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>LEO</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>LINK</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>TON</button>
-                        <button className="text-white bg-slate-600 px-8 py-2 rounded-xl font-bold" onClick={handleQuickSelect}>XLM</button>
-                    </div>
-                </div>
-
-                <div className="w-[100%] xl:w-[35%] flex flex-row items-center justify-center gap-8">
-                    <div className="flex flex-row justify-center items-center w-full">
-                        <input 
-                                onChange={handleTarget} 
-                                className="border-none lg:px-[2em] py-[.8em] h-[5%] w-[80%] text-center rounded-full bg-slate-700 text-white font-bold"
-                                value={inputValue}
-                                placeholder="Insert a symbol"
-                                maxLength={4}
-                            />
-
-                    </div>
-                        <select className="border-none px-[2em] py-[.8em] text-center rounded-full bg-slate-700 text-white font-bold uppercase flex justify-center cursor-pointer mr-9" onChange={handleTarget}>
-                            {cryptoPrices.map(crypto => (
-                                <option key={`${crypto.symbol} ${crypto.name}`} value={crypto.symbol} className="uppercase font-bold">{crypto.symbol}</option>
-                            ))}
-                        </select>
-                </div>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-gray-800/50 via-black/50 to-gray-800/50 backdrop-blur-sm border-b border-gray-700/30">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            {/* Quick Select Buttons */}
+            <div className="hidden xl:flex flex-wrap gap-3">
+              {quickSelectCoins.map(coin => (
+                <button
+                  key={coin}
+                  onClick={() => handleQuickSelect(coin)}
+                  className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 hover:from-purple-600/20 hover:to-purple-700/20 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 border border-gray-600/30 hover:border-purple-400/30"
+                >
+                  {coin}
+                </button>
+              ))}
             </div>
 
+            {/* Search Section */}
+            <div className="flex items-center gap-4 w-full lg:w-auto">
+              <div className="relative flex-1 lg:w-80">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  placeholder="Search crypto symbol..."
+                  className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-600/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                  maxLength={10}
+                />
+              </div>
+              
+              <select 
+                value={selectedCrypto?.symbol || ''}
+                onChange={(e) => {
+                  const crypto = cryptoPrices.find(c => c.symbol === e.target.value);
+                  if (crypto) setSelectedCrypto(crypto);
+                }}
+                className="bg-gray-800/50 border border-gray-600/30 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-purple-400/50 cursor-pointer"
+              >
+                {cryptoPrices.map(crypto => (
+                  <option key={crypto.id} value={crypto.symbol} className="bg-gray-800">
+                    {crypto.symbol.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+        {selectedCrypto && (
+          <>
+            {/* Selected Crypto Header */}
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center gap-4 mb-4">
+                <Image
+                  width={64}
+                  height={64}
+                  src={selectedCrypto.image}
+                  alt={selectedCrypto.name}
+                  className="w-16 h-16 rounded-full"
+                />
+                <div>
+                  <h1 className="text-4xl font-bold text-white">{selectedCrypto.name}</h1>
+                  <p className="text-xl text-slate-400 uppercase tracking-wider">{selectedCrypto.symbol}</p>
+                </div>
+              </div>
+            </div>
 
-            {selectedCrypto && (
-                <>
-                    <div className="flex gap-[2%] *:mx-6 justify-center items-center w-full my-[4%] xl:flex-row flex-col-reverse ">
+            {/* Data Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
+              <DataCard 
+                type="Price" 
+                cryptoData={selectedCrypto.current_price} 
+                image={selectedCrypto.image} 
+                imageAlt={`${selectedCrypto.name} logo`}
+                percentage={selectedCrypto.price_change_percentage_24h}
+              />
+              <DataCard 
+                type="Market Cap" 
+                cryptoData={selectedCrypto.market_cap} 
+                image={selectedCrypto.image} 
+                imageAlt={`${selectedCrypto.name} logo`}
+              />
+              <DataCard 
+                type="High 24h" 
+                cryptoData={selectedCrypto.high_24h} 
+                image={selectedCrypto.image} 
+                imageAlt={`${selectedCrypto.name} logo`}
+              />
+              <DataCard 
+                type="Low 24h" 
+                cryptoData={selectedCrypto.low_24h} 
+                image={selectedCrypto.image} 
+                imageAlt={`${selectedCrypto.name} logo`}
+              />
+              <DataCard 
+                type="Volume" 
+                cryptoData={selectedCrypto.total_volume} 
+                image={selectedCrypto.image} 
+                imageAlt={`${selectedCrypto.name} logo`}
+              />
+            </div>
+          </>
+        )}
 
-                    <div className="flex flex-col">
-                        <div className="flex justify-center items-center gap-3">
-                        <Image
-                        src={selectedCrypto.image}
-                        alt={selectedCrypto.name}
-                        width={60}
-                        height={60}
-                    />
-                    <h1 className="text-xl lg:text-3xl font-bold">{selectedCrypto.name}</h1>
-                        </div>
-                    <h2 className="text-md lg:text-2xl italic uppercase text-center mt-2">{selectedCrypto.symbol}</h2>
-                    </div>
-                    <div className="flex w-full flex-wrap xl:flex-nowrap 2xl:gap-[5%] gap-8 justify-center items-center mb-[15%] xl:mb-0">
-                    <DataCard type="Price" cryptoData={selectedCrypto?.current_price || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo `} percentage={selectedCrypto.price_change_percentage_24h}/>
-                        <DataCard type="Market Cap" cryptoData={selectedCrypto?.market_cap || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="High 24h" cryptoData={selectedCrypto?.high_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="Low 24h" cryptoData={selectedCrypto?.low_24h || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-                        <DataCard type="Volume" cryptoData={selectedCrypto?.total_volume || 0} image={selectedCrypto.image} imageAlt={`${selectedCrypto.name} logo`}/>
-</div>
-                        
-                    </div>
-                </>
-                        )}
-            <CryptoChart id={selectedCrypto?.id}/>
-        </>
-    );
-}
+        {/* Market Table */}
+        <CryptoTable cryptos={cryptoPrices} />
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;

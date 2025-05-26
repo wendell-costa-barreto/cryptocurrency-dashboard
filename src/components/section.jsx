@@ -3,23 +3,30 @@ import Image from "next/image";
 import { Roboto_Condensed } from "next/font/google";
 
 const robotoCondensed = Roboto_Condensed({
-    variable: "--font-roboto-condensed",
-    subsets: ["latin"],
+  variable: "--font-roboto-condensed",
+  subsets: ["latin"],
 });
 
-export default function Section({ isInverted, src, alt, h1Text, h3Text, pText }) {
-    return (
-        <section
-            className={clsx(
-                "h-[80%] overflow-x-hidden w-full flex justify-center items-center mt-[80%] lg:my-[10em] flex-col lg:flex-row",
-                robotoCondensed.className,
-                isInverted ? "flex-col-reverse" : "flex-col" 
-            )}
-        >
-            {
-                isInverted ? (
-                    <>
-                        <div className="bg-orange-600 
+export default function Section({
+  isInverted,
+  src,
+  alt,
+  h1Text,
+  h3Text,
+  pText,
+}) {
+  return (
+    <section
+      className={clsx(
+        "h-[80%] overflow-x-hidden w-full flex justify-center items-center mt-[80%] lg:my-[10em] flex-col lg:flex-row",
+        robotoCondensed.className,
+        isInverted ? "flex-col-reverse" : "flex-col"
+      )}
+    >
+      {isInverted ? (
+        <>
+          <div
+            className="bg-orange-600 
                         w-full lg:w-[40vw]
                         h-[45vh]
                         z-10 
@@ -28,19 +35,25 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         flex 
                         justify-center 
                         items-center"
-                        >
-                            <Image
-                            src={src}
-                            alt={alt}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            style={{ width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', margin: ' 0 auto' }}
-                            />
-                        </div>
+          >
+            <Image
+              src={src}
+              alt={alt}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+                objectFit: "cover",
+                margin: " 0 auto",
+              }}
+            />
+          </div>
 
-
-                        <div className="bg-black
+          <div
+            className="bg-black
                         w-full lg:w-[60vw]
                         h-[60vh] lg:h-[65vh]
                         mb-[5%]
@@ -49,8 +62,9 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         items-center lg:items-start
                         flex-col lg:flex-row
                         gap-6"
-                        >
-                            <div className="
+          >
+            <div
+              className="
                         flex
                         justify-center
                         items-center lg:items-end
@@ -59,37 +73,44 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         h-[100%]
                         flex-col  
                         gap-6
-                        ">
-                                <h1 className="text-white 
+                        "
+            >
+              <h1
+                className="text-white 
                         text-center lg:text-left
                         text-4xl 
                         z-10 
                         w-[50%] lg:w-[100%]
-                        ">
-                                    {h1Text}
-                                </h1>
+                        "
+              >
+                {h1Text}
+              </h1>
 
-                                <h3 className="text-white
+              <h3
+                className="text-white
                             text-xl
                             w-[80%] lg:w-[100%]
                             z-10
-                        ">
-                                    {h3Text}
-                                </h3>
+                        "
+              >
+                {h3Text}
+              </h3>
 
-                                <p className="text-white
+              <p
+                className="text-white
                             z-10 
                             w-[80%] lg:w-[100%]
                             "
-                                >
-                                    {pText}                         
-                                    </p>
-                            </div>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="bg-black
+              >
+                {pText}
+              </p>
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            className="bg-black
                         w-full lg:w-[60vw]
                         h-[60vh] lg:h-[65vh]
                         mb-[5%]
@@ -99,8 +120,9 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         flex-col lg:flex-row
                         gap-6
                         m]"
-                        >
-                            <div className="
+          >
+            <div
+              className="
                         flex
                         justify-center
                         items-center lg:items-start
@@ -110,33 +132,41 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         ml-[5%]
                         lg:ml-[3em]
                         gap-6
-                        ">
-                                <h1 className="text-white 
+                        "
+            >
+              <h1
+                className="text-white 
                         text-center lg:text-left
                         text-2xl lg:text-4xl
                         z-10 
                         w-[50%] lg:w-[100%]
-                        ">
-                                    {h1Text}
-                                </h1>
-                                <h3 className="text-white
+                        "
+              >
+                {h1Text}
+              </h1>
+              <h3
+                className="text-white
                             text-xl
                             z-10
                             w-[55%] lg:w-[100%]
-                        ">
-                                    {h3Text}
-                                </h3>
+                        "
+              >
+                {h3Text}
+              </h3>
 
-                                <p className="text-white
+              <p
+                className="text-white
                             z-10
                             w-[55%] lg:w-[100%]
                             "
-                                >
-                                    {pText}                                </p>
-                            </div>
-                        </div>
+              >
+                {pText}{" "}
+              </p>
+            </div>
+          </div>
 
-                        <div className="bg-orange-600 
+          <div
+            className="bg-orange-600 
                         w-full lg:w-[40vw]
                         h-[45vh]
                         p-4 lg:p-0
@@ -146,19 +176,24 @@ export default function Section({ isInverted, src, alt, h1Text, h3Text, pText })
                         flex 
                         justify-center 
                         items-center"
-                        >
-                            <Image
-                            src={src}
-                            alt={alt}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            style={{ width: '100%', height: '100%', zIndex: 1, objectFit: 'cover', margin: ' 0 auto' }}
-                            />
-                        </div>
-                    </>
-                )
-            }
-        </section >
-    );
+          >
+            <Image
+              src={src}
+              alt={alt}
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "100%",
+                zIndex: 1,
+                objectFit: "cover",
+                margin: " 0 auto",
+              }}
+            />
+          </div>
+        </>
+      )}
+    </section>
+  );
 }
