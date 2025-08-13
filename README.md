@@ -21,7 +21,7 @@ A sleek, performance-optimized cryptocurrency dashboard designed for users who w
 
 - **Framework:** Next.js  
 - **Styling & Animations:** Tailwind CSS + Framer Motion  
-- **Database / Backend:** Supabase  
+- **Database / Backend:** Supabase (+ PostgreSQL)
 
 ## Installation
 
