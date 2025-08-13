@@ -13,3 +13,5 @@ export const formatToUSD = (value) => {
       compactDisplay: "short",
   }).format(value);
 };
+
+

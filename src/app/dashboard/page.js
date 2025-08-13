@@ -1,10 +1,16 @@
 'use client'
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  variable: '--font-inter',
+});
 
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, Search, BarChart3, Coins, DollarSign, Volume, Activity } from 'lucide-react';
 import Image from 'next/image';
 
-// Your fetchCryptoPrices function
 const fetchCryptoPrices = async () => {
     try{
         const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd',
@@ -36,17 +42,18 @@ const DataCard = ({ type, cryptoData, image, imageAlt, percentage }) => {
       case 'Price': return <DollarSign className="w-5 h-5" />;
       case 'Market Cap': return <BarChart3 className="w-5 h-5" />;
       case 'Volume': return <Volume className="w-5 h-5" />;
-      case 'High 24h': case 'Low 24h': return <Activity className="w-5 h-5" />;
+      case 'High 24h': return <Activity className="w-5 h-5" />;
+      case 'Low 24h': return <Activity className="w-5 h-5 transform rotate-180" />;
       default: return <Coins className="w-5 h-5" />;
     }
   };
 
   return (
     <>
-    <div className="bg-gradient-to-br from-gray-800/50 via-black/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl p-6 hover:border-purple-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
+    <div className="bg-gradient-to-br from-gray-800/50 via-black/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-sm p-6 hover:border-purple-400/30 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+          <div className="p-2 bg-purple-500/10 rounded-sm text-purple-400">
             {getIcon(type)}
           </div>
           <span className="text-slate-300 font-medium">{type}</span>
@@ -86,7 +93,7 @@ const CryptoTable = ({ cryptos }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800/30 via-black/30 to-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-2xl overflow-hidden">
+    <div className="bg-gradient-to-br from-gray-800/30 via-black/30 to-gray-900/30 backdrop-blur-sm border border-gray-700/30 rounded-sm overflow-hidden">
       <div className="p-6 border-b border-gray-700/30">
         <h2 className="text-2xl font-bold text-white flex items-center gap-3">
           <BarChart3 className="w-6 h-6 text-purple-400" />
@@ -111,7 +118,7 @@ const CryptoTable = ({ cryptos }) => {
             {cryptos.map((crypto) => (
               <tr key={crypto.id} className="border-b border-gray-700/20 hover:bg-gray-800/20 transition-colors">
                 <td className="py-4 px-6">
-                  <span className="bg-purple-500/10 text-purple-400 px-2 py-1 rounded-lg text-sm font-medium">
+                  <span className="bg-purple-500/10 text-purple-400 px-2 py-1 rounded-sm text-sm font-medium">
                     #{crypto.market_cap_rank}
                   </span>
                 </td>
@@ -196,15 +203,15 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+      <div className={`min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center font-inter ` }>
         <div className="text-center">
-          <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-8 max-w-md">
+          <div className="bg-red-500/10 border border-red-500/20 rounded-sm p-8 max-w-md">
             <div className="text-red-400 text-6xl mb-4">⚠️</div>
             <h1 className="text-red-400 text-2xl font-bold mb-2">Something went wrong</h1>
             <p className="text-slate-400">Please try again later</p>
             <button 
               onClick={() => window.location.reload()} 
-              className="mt-4 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 px-6 py-2 rounded-lg transition-all"
+              className="mt-4 bg-red-500/20 hover:bg-red-500/30 border border-red-500/30 text-red-400 px-6 py-2 rounded-sm transition-all"
             >
               Retry
             </button>
@@ -216,7 +223,7 @@ const Dashboard = () => {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center font-inter">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-purple-400/30 border-t-purple-400 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-slate-400">Loading market data...</p>
@@ -228,18 +235,19 @@ const Dashboard = () => {
   const quickSelectCoins = ['BTC', 'ETH', 'USDT', 'XRP', 'BNB'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 font-inter">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-gray-800/50 via-black/50 to-gray-800/50 backdrop-blur-sm border-b border-gray-700/30">
+      <div className="bg-gradient-to-r from-gray-800/50 via-black/50 to-gray-800/50 backdrop-blur-sm border-b border-gray-700/30 font-inter">
         <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8 font-inter">
             {/* Quick Select Buttons */}
-            <div className="hidden xl:flex flex-wrap gap-3">
+            <div className={`${inter.className}hidden xl:flex flex-wrap gap-3`}
+          >
               {quickSelectCoins.map(coin => (
                 <button
                   key={coin}
                   onClick={() => handleQuickSelect(coin)}
-                  className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 hover:from-purple-600/20 hover:to-purple-700/20 text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 border border-gray-600/30 hover:border-purple-400/30"
+                  className="bg-gradient-to-r from-gray-700/50 to-gray-800/50 hover:from-purple-600/20 hover:to-purple-700/20 text-white px-6 py-3 rounded-sm font-medium transition-all duration-300 border border-gray-600/30 hover:border-purple-400/30"
                 >
                   {coin}
                 </button>
@@ -255,7 +263,7 @@ const Dashboard = () => {
                   value={inputValue}
                   onChange={handleInputChange}
                   placeholder="Search crypto symbol..."
-                  className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-600/30 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 transition-all"
+                  className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-600/30 rounded-sm text-white placeholder-slate-400 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-400/20 transition-all"
                   maxLength={10}
                 />
               </div>
@@ -266,7 +274,7 @@ const Dashboard = () => {
                   const crypto = cryptoPrices.find(c => c.symbol === e.target.value);
                   if (crypto) setSelectedCrypto(crypto);
                 }}
-                className="bg-gray-800/50 border border-gray-600/30 rounded-xl px-4 py-3 text-white font-medium focus:outline-none focus:border-purple-400/50 cursor-pointer"
+                className="bg-gray-800/50 border border-gray-600/30 rounded-sm px-4 py-3 text-white font-medium focus:outline-none focus:border-purple-400/50 cursor-pointer"
               >
                 {cryptoPrices.map(crypto => (
                   <option key={crypto.id} value={crypto.symbol} className="bg-gray-800">
@@ -340,7 +348,9 @@ const Dashboard = () => {
         {/* Market Table */}
         <CryptoTable cryptos={cryptoPrices} />
       </div>
+
     </div>
+
   );
 };
 

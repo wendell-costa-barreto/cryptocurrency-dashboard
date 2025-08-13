@@ -305,7 +305,7 @@ const handleSignOut = async () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-[#1a1333] to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 via-[#0d0a1a] to-slate-900 text-white">
       {/* Header */}
       <div className="border-b border-white/10 bg-black/20 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -372,7 +372,7 @@ const handleSignOut = async () => {
           {!showCreateForm ? (
             <button
               onClick={() => setShowCreateForm(true)}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-xl font-semibold transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-purple-500/20"
+              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-800 to-pink-900 hover:from-purple-700 hover:to-pink-700 rounded-xl font-semibold transition-all transform hover:scale-[1.02] shadow-lg hover:shadow-purple-500/20"
             >
               <Plus className="h-5 w-5" />
               <span>Create New Portfolio</span>
