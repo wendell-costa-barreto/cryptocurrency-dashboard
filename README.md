@@ -44,4 +44,4 @@ Browse cryptocurrency data for the top 100 coins.
 
 Add your holdings to the portfolio section to monitor performance.
 
-Data updates automatically every 25 seconds for the latest info.
+Implemented periodic data fetching (every 25 seconds) with optimized state updates to ensure fresh data without degrading performance.
